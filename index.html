@@ -16,8 +16,8 @@ const manifestData = {
   start_url:"./",display:"standalone",background_color:"#0a0f0a",theme_color:"#0a0f0a",orientation:"portrait",
   icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%230a0f0a'/%3E%3Ctext y='360' x='256' text-anchor='middle' font-size='320'%3E🌿%3C/text%3E%3C/svg%3E",sizes:"512x512",type:"image/svg+xml"}]
 };
-const mblob=new Blob([JSON.stringify(manifestData)],{type:'application/json'});
-document.write('<link rel="manifest" href="'+URL.createObjectURL(mblob)+'">');
+const mb=new Blob([JSON.stringify(manifestData)],{type:'application/json'});
+document.write('<link rel="manifest" href="'+URL.createObjectURL(mb)+'">');
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -27,7 +27,6 @@ document.write('<link rel="manifest" href="'+URL.createObjectURL(mblob)+'">');
   --green:#4ade80;--green2:#22c55e;--green3:#16a34a;
   --text:#f0fdf4;--text2:#a3c4a3;--text3:#86efac;
   --muted:#4a7a4a;--muted2:#2d4a2d;
-  --red:#ef4444;--orange:#f97316;--yellow:#eab308;
   --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -35,7 +34,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:2px}
 #app{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 
-/* HEADER */
 header{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border2);
   padding:calc(var(--safe-top) + .9rem) 1.25rem .9rem;
   display:flex;align-items:center;gap:.85rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -44,47 +42,52 @@ header{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px
 .logo-sub{font-size:.6rem;color:var(--green);letter-spacing:.18em;text-transform:uppercase;opacity:.8}
 .hdr-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;padding:.38rem .8rem;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .hdr-btn:active{background:var(--bg3)}
-.hdr-btn.active{border-color:var(--green);color:var(--green)}
+.hdr-btn.on{border-color:var(--green);color:var(--green)}
 #hdr-right{margin-left:auto;display:flex;gap:.5rem;align-items:center}
 
 main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;margin:0 auto;width:100%}
 
-/* SCREENS */
 .screen{display:none;animation:fi .3s ease}
 .screen.active{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* CARDS */
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1rem}
 .card-head{padding:.8rem 1rem;border-bottom:1px solid var(--border2);font-size:.65rem;font-weight:600;color:var(--green);letter-spacing:.15em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem}
 .card-body{padding:.9rem 1rem}
 
-/* API KEY SCREEN */
-.settings-hero{text-align:center;padding:1.5rem 0 1rem}
-.settings-icon{font-size:3rem;margin-bottom:.75rem}
-.settings-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:.35rem}
-.settings-sub{font-size:.82rem;color:var(--muted);line-height:1.6;max-width:340px;margin:0 auto}
-.field-group{margin-bottom:1rem}
+/* SETTINGS */
+.set-hero{text-align:center;padding:1.25rem 0 .75rem}
+.set-icon{font-size:2.8rem;margin-bottom:.65rem}
+.set-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.set-sub{font-size:.8rem;color:var(--muted);line-height:1.6;max-width:320px;margin:0 auto}
 .field-label{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;display:block}
-.field-input{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.field-row{display:flex;gap:.5rem;align-items:center}
+.field-input{flex:1;background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;width:100%}
 .field-input:focus{border-color:var(--green)}
 .field-input::placeholder{color:var(--muted2)}
 .field-hint{font-size:.7rem;color:var(--muted2);margin-top:.35rem;line-height:1.5}
 .field-hint a{color:var(--green);text-decoration:none}
-.key-display{display:flex;gap:.5rem;align-items:center}
-.key-display .field-input{flex:1}
-.key-status{display:flex;align-items:center;gap:.5rem;padding:.6rem .85rem;border-radius:9px;font-size:.78rem;margin-bottom:1rem}
-.key-status.ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green)}
-.key-status.none{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.2);color:#fde68a}
+.key-status{display:flex;align-items:center;gap:.5rem;padding:.6rem .85rem;border-radius:9px;font-size:.78rem;margin-bottom:.85rem}
+.key-ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green)}
+.key-none{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.2);color:#fde68a}
+
+/* HOW TO GET KEY — steps */
+.steps{counter-reset:step;margin:.5rem 0}
+.step{display:flex;gap:.75rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--bg4)}
+.step:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--green3),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:.05rem}
+.step-text{font-size:.8rem;color:var(--text2);line-height:1.55}
+.step-text strong{color:var(--text3)}
+.step-text a{color:var(--green);text-decoration:none;font-weight:600}
 
 /* BUTTONS */
-.btn-primary{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--green3),var(--green2));color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.55rem;transition:all .2s;box-shadow:0 4px 15px rgba(34,197,94,.2)}
-.btn-primary:disabled{background:var(--border2);color:var(--muted2);cursor:not-allowed;box-shadow:none}
-.btn-primary:not(:disabled):active{transform:scale(.97)}
-.btn-secondary{width:100%;padding:.75rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:11px;font-family:'DM Sans',sans-serif;font-size:.88rem;cursor:pointer;transition:all .2s;margin-top:.6rem}
-.btn-secondary:active{background:var(--bg3)}
-.btn-icon{width:40px;height:40px;background:var(--bg4);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:1.1rem;transition:all .2s}
-.btn-icon:active{background:var(--bg3);border-color:var(--green)}
+.btn-p{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--green3),var(--green2));color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.55rem;transition:all .2s;box-shadow:0 4px 15px rgba(34,197,94,.2);margin-bottom:.6rem}
+.btn-p:disabled{background:var(--border2);color:var(--muted2);cursor:not-allowed;box-shadow:none}
+.btn-p:not(:disabled):active{transform:scale(.97)}
+.btn-s{width:100%;padding:.7rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:11px;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn-s:active{background:var(--bg3)}
+.btn-eye{width:40px;height:40px;background:var(--bg4);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:1.1rem;transition:all .2s}
+.btn-eye:active{border-color:var(--green)}
 
 /* UPLOAD */
 .cam-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.7rem}
@@ -95,14 +98,10 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
 #drop-zone{border:2px dashed var(--border);border-radius:11px;background:var(--bg4);min-height:180px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.55rem;transition:all .2s;padding:1.25rem;margin-bottom:.7rem}
 #drop-zone.drag{border-color:var(--green);background:#0d1a0d}
 #drop-zone img{max-width:100%;max-height:220px;border-radius:8px;object-fit:contain}
-.dz-icon{font-size:2.2rem}
-.dz-title{font-size:.9rem;color:var(--text3);font-weight:500}
-.dz-hint{font-size:.72rem;color:var(--muted)}
+.dz-icon{font-size:2.2rem}.dz-title{font-size:.9rem;color:var(--text3);font-weight:500}.dz-hint{font-size:.72rem;color:var(--muted)}
 .paste-hint{background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:.55rem .85rem;font-size:.72rem;color:var(--muted);display:flex;gap:.5rem;align-items:center;margin-bottom:.7rem}
 .paste-hint strong{color:var(--green)}
 .error-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:9px;padding:.7rem .9rem;font-size:.78rem;color:#fca5a5;line-height:1.5;margin-bottom:.7rem}
-
-/* NO KEY BANNER */
 .nokey-banner{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.25);border-radius:11px;padding:.85rem 1rem;margin-bottom:.9rem;display:flex;gap:.75rem;align-items:flex-start}
 .nokey-text{font-size:.78rem;color:#fde68a;line-height:1.55}
 .nokey-text strong{display:block;margin-bottom:.2rem;font-size:.82rem}
@@ -144,19 +143,16 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
 .disclaimer{font-size:.65rem;color:var(--muted2);text-align:center;line-height:1.6;padding:.5rem 0 .25rem}
 .sample-notice{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.2);border-radius:10px;padding:.65rem .9rem;margin-bottom:.9rem;font-size:.75rem;color:#fde68a;display:flex;gap:.55rem;align-items:flex-start;line-height:1.5}
 
-/* INSTALL BANNER */
-#install-banner{display:none;position:fixed;bottom:calc(var(--safe-bot) + 1rem);left:1rem;right:1rem;z-index:200;background:linear-gradient(135deg,#0d2010,#0f2a14);border:1px solid rgba(74,222,128,.3);border-radius:14px;padding:1rem 1.1rem;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:slideUp .4s ease}
-@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.banner-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--text)}
-.banner-sub{font-size:.72rem;color:var(--muted);margin-top:.1rem}
+/* INSTALL */
+#install-banner{display:none;position:fixed;bottom:calc(var(--safe-bot) + 1rem);left:1rem;right:1rem;z-index:200;background:linear-gradient(135deg,#0d2010,#0f2a14);border:1px solid rgba(74,222,128,.3);border-radius:14px;padding:1rem 1.1rem;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:up .4s ease}
+@keyframes up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .banner-btns{display:flex;gap:.55rem;margin-top:.75rem}
-#btn-install{flex:1;padding:.6rem;background:linear-gradient(135deg,var(--green3),var(--green2));color:#fff;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer}
-#btn-dismiss{padding:.6rem .9rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer}
+#btn-inst{flex:1;padding:.6rem;background:linear-gradient(135deg,var(--green3),var(--green2));color:#fff;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer}
+#btn-dism{padding:.6rem .9rem;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer}
 
-/* IOS GUIDE */
 #ios-guide{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:flex-end;justify-content:center}
 #ios-guide.show{display:flex}
-.ios-sheet{background:var(--bg3);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:1.5rem 1.25rem calc(var(--safe-bot) + 1.5rem);width:100%;max-width:480px;animation:slideUp .3s ease}
+.ios-sheet{background:var(--bg3);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:1.5rem 1.25rem calc(var(--safe-bot) + 1.5rem);width:100%;max-width:480px;animation:up .3s ease}
 .ios-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:1rem}
 .ios-step{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.85rem}
 .ios-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--green3),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0}
@@ -174,7 +170,7 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
     </div>
     <div id="hdr-right">
       <button class="hdr-btn" id="btn-new" style="display:none" onclick="showUpload()">📷 Nueva</button>
-      <button class="hdr-btn" id="btn-settings" onclick="toggleSettings()">⚙️</button>
+      <button class="hdr-btn" id="btn-cfg" onclick="toggleSettings()">⚙️</button>
     </div>
   </header>
 
@@ -182,47 +178,50 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
 
     <!-- ══ SETTINGS ══ -->
     <div id="screen-settings" class="screen">
-      <div class="settings-hero">
-        <div class="settings-icon">🔑</div>
-        <div class="settings-title">Configuración</div>
-        <div class="settings-sub">Introduce tu API key de Anthropic para que AgroScan pueda analizar tus cultivos.</div>
+      <div class="set-hero">
+        <div class="set-icon">🔑</div>
+        <div class="set-title">Configuración</div>
+        <div class="set-sub">Introduce tu API key de Google Gemini — es gratis y no necesita tarjeta.</div>
       </div>
 
+      <!-- How to get key -->
       <div class="card">
-        <div class="card-head">🔑 API Key de Anthropic</div>
+        <div class="card-head">📋 Cómo obtener tu API key gratis</div>
         <div class="card-body">
-          <div id="key-status-box"></div>
-          <div class="field-group">
-            <label class="field-label">Tu API Key</label>
-            <div class="key-display">
-              <input class="field-input" id="input-apikey" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false"/>
-              <button class="btn-icon" id="btn-toggle-key" onclick="toggleKeyVisibility()" title="Mostrar/ocultar">👁️</button>
-            </div>
-            <div class="field-hint">
-              Consíguela en <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a>. Se guarda solo en tu dispositivo, nunca se envía a ningún servidor.
-            </div>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-text">Inicia sesión con tu <strong>cuenta de Google</strong></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-text">Pulsa <strong>"Create API key"</strong></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-text">Copia la key y pégala abajo</div></div>
           </div>
-          <button class="btn-primary" onclick="saveKey()">💾 Guardar API Key</button>
-          <button class="btn-secondary" id="btn-delete-key" onclick="deleteKey()" style="display:none">🗑️ Eliminar key guardada</button>
         </div>
       </div>
 
+      <!-- Key input -->
+      <div class="card">
+        <div class="card-head">🔑 Tu API Key de Gemini</div>
+        <div class="card-body">
+          <div id="key-status-box"></div>
+          <label class="field-label">API Key</label>
+          <div class="field-row" style="margin-bottom:.4rem">
+            <input class="field-input" id="input-key" type="password" placeholder="AIza..." autocomplete="off" spellcheck="false"/>
+            <button class="btn-eye" onclick="toggleEye()">👁️</button>
+          </div>
+          <div class="field-hint">Se guarda solo en tu dispositivo. Nunca se envía a ningún servidor ajeno a Google.</div>
+          <br/>
+          <button class="btn-p" onclick="saveKey()">💾 Guardar API Key</button>
+          <button class="btn-s" id="btn-del" onclick="deleteKey()" style="display:none">🗑️ Eliminar key guardada</button>
+        </div>
+      </div>
+
+      <!-- Install -->
       <div class="card">
         <div class="card-head">📲 Instalar como app</div>
         <div class="card-body">
-          <p style="font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:.85rem">Instala AgroScan en tu móvil para usarla como una app nativa, sin navegador.</p>
-          <button class="btn-primary" id="btn-install-settings" onclick="installApp()" style="display:none">📲 Instalar en Android</button>
-          <button class="btn-primary" id="btn-ios-settings" onclick="document.getElementById('ios-guide').classList.add('show')" style="display:none">📲 Cómo instalar en iPhone</button>
-          <div id="installed-msg" style="display:none;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:9px;padding:.7rem .9rem;font-size:.78rem;color:var(--green)">✅ App ya instalada en este dispositivo</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">ℹ️ Acerca de</div>
-        <div class="card-body" style="font-size:.78rem;color:var(--muted);line-height:1.7">
-          <p><strong style="color:var(--text3)">AgroScan v1.0</strong></p>
-          <p>Diagnóstico de deficiencias nutricionales en cultivos mediante visión artificial (Claude claude-sonnet-4-20250514).</p>
-          <p style="margin-top:.5rem">Detecta deficiencias de N, P, K, Ca, Mg, S, Fe, Mn, Zn, Cu, B, Mo y Cl a partir de fotografías de hojas, tallos o frutos.</p>
+          <p style="font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:.85rem">Instala AgroScan en tu móvil para usarla sin navegador, como app nativa.</p>
+          <button class="btn-p" id="btn-inst-set" onclick="installApp()" style="display:none">📲 Instalar en Android</button>
+          <button class="btn-p" id="btn-ios-set" onclick="document.getElementById('ios-guide').classList.add('show')" style="display:none">📲 Cómo instalar en iPhone</button>
+          <div id="inst-ok" style="display:none;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:9px;padding:.7rem .9rem;font-size:.78rem;color:var(--green)">✅ App ya instalada en este dispositivo</div>
         </div>
       </div>
     </div>
@@ -233,19 +232,13 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
         <span style="font-size:1.4rem;flex-shrink:0">⚠️</span>
         <div class="nokey-text">
           <strong>API Key no configurada</strong>
-          Necesitas una API key para analizar imágenes. <span class="nokey-link" onclick="goSettings()">Configúrala aquí →</span>
+          Necesitas una key gratuita de Google Gemini. <span class="nokey-link" onclick="goSettings()">Configúrala aquí →</span>
         </div>
       </div>
 
       <div class="cam-row">
-        <button class="cam-btn" onclick="openCamera()">
-          <div class="cam-btn-icon">📷</div>
-          <div class="cam-btn-label">Cámara</div>
-        </button>
-        <button class="cam-btn" onclick="openGallery()">
-          <div class="cam-btn-icon">🖼️</div>
-          <div class="cam-btn-label">Galería</div>
-        </button>
+        <button class="cam-btn" onclick="openCamera()"><div class="cam-btn-icon">📷</div><div class="cam-btn-label">Cámara</div></button>
+        <button class="cam-btn" onclick="openGallery()"><div class="cam-btn-icon">🖼️</div><div class="cam-btn-label">Galería</div></button>
       </div>
 
       <div id="drop-zone" onclick="openGallery()">
@@ -254,16 +247,9 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
         <div class="dz-hint">JPG · PNG · WEBP</div>
       </div>
 
-      <div class="paste-hint">
-        <span>⌨️</span>
-        <span>En ordenador pega con <strong>Ctrl+V</strong></span>
-      </div>
-
+      <div class="paste-hint"><span>⌨️</span><span>En ordenador pega con <strong>Ctrl+V</strong></span></div>
       <div id="error-box" class="error-box" style="display:none"></div>
-
-      <button id="btn-analyze" class="btn-primary" disabled onclick="analyze()">
-        🔬 Analizar cultivo
-      </button>
+      <button id="btn-analyze" class="btn-p" disabled onclick="analyze()">🔬 Analizar cultivo</button>
 
       <div class="card" style="margin-top:1rem">
         <div class="card-head">💡 Consejos</div>
@@ -298,11 +284,14 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
 <div id="install-banner">
   <div style="display:flex;align-items:center;gap:.85rem">
     <div style="font-size:1.8rem">🌿</div>
-    <div><div class="banner-title">Instalar AgroScan</div><div class="banner-sub">Úsala sin navegador, como app nativa</div></div>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--text)">Instalar AgroScan</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:.1rem">Úsala sin navegador, como app nativa</div>
+    </div>
   </div>
   <div class="banner-btns">
-    <button id="btn-install" onclick="installApp()">Instalar</button>
-    <button id="btn-dismiss" onclick="dismissInstall()">Ahora no</button>
+    <button id="btn-inst" onclick="installApp()">Instalar</button>
+    <button id="btn-dism" onclick="document.getElementById('install-banner').style.display='none'">Ahora no</button>
   </div>
 </div>
 
@@ -310,10 +299,10 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
 <div id="ios-guide">
   <div class="ios-sheet">
     <div class="ios-title">📲 Instalar en iPhone / iPad</div>
-    <div class="ios-step"><div class="ios-num">1</div><div class="ios-text">Toca el botón <strong>Compartir</strong> (□↑) en la barra inferior de Safari</div></div>
-    <div class="ios-step"><div class="ios-num">2</div><div class="ios-text">Desplázate y toca <strong>"Añadir a pantalla de inicio"</strong></div></div>
-    <div class="ios-step"><div class="ios-num">3</div><div class="ios-text">Confirma tocando <strong>Añadir</strong> — ¡ya aparece en tu pantalla!</div></div>
-    <button class="btn-secondary" onclick="document.getElementById('ios-guide').classList.remove('show')">Entendido</button>
+    <div class="ios-step"><div class="ios-num">1</div><div class="ios-text">Toca el botón <strong>Compartir</strong> (□↑) en Safari</div></div>
+    <div class="ios-step"><div class="ios-num">2</div><div class="ios-text">Toca <strong>"Añadir a pantalla de inicio"</strong></div></div>
+    <div class="ios-step"><div class="ios-num">3</div><div class="ios-text">Confirma con <strong>Añadir</strong></div></div>
+    <button class="btn-s" onclick="document.getElementById('ios-guide').classList.remove('show')">Entendido</button>
   </div>
 </div>
 
@@ -321,9 +310,10 @@ main{flex:1;padding:1.1rem 1rem calc(var(--safe-bot) + 1rem);max-width:560px;mar
 <input id="input-gallery" type="file" accept="image/*" style="display:none" onchange="handleFile(this)"/>
 
 <script>
-// ── CONSTANTS ─────────────────────────────────────────────────────────────────
-const KEY_STORAGE = 'agroscan_apikey';
-const SYSTEM_PROMPT = `Eres un agrónomo experto en nutrición vegetal y fitopatología. Analiza la imagen del cultivo.
+const KEY_STORAGE = 'agroscan_gemini_key';
+const GEMINI_MODEL = 'gemini-2.0-flash';
+
+const PROMPT = `Eres un agrónomo experto en nutrición vegetal y fitopatología. Analiza la imagen del cultivo.
 Responde ÚNICAMENTE con JSON válido, sin backticks ni texto extra:
 {"cultivo_detectado":"nombre","parte_analizada":"hoja|tallo|fruto|raíz|planta completa","estado_general":"Crítico|Moderado|Leve|Saludable","deficiencias":[{"elemento":"Nombre","simbolo":"X","probabilidad":85,"sintomas_observados":"desc","consecuencias":"qué ocurre","correccion":"fertilizante, dosis, método"}],"otras_posibles_causas":["causa"],"recomendaciones_urgentes":["acción"],"confianza_diagnostico":75,"nota_profesional":"observación"}
 Si no es una planta: {"error":"La imagen no muestra un cultivo reconocible"}`;
@@ -339,217 +329,173 @@ const SAMPLE={
   cultivo_detectado:"Olivo (Olea europaea)",parte_analizada:"hoja",estado_general:"Moderado",confianza_diagnostico:78,
   deficiencias:[
     {elemento:"Magnesio",simbolo:"Mg",probabilidad:75,sintomas_observados:"Moteado clorótico irregular entre nervios con zonas amarillo-verdosas. Los nervios principales conservan el color verde.",consecuencias:"Reducción de la fotosíntesis, caída prematura de hojas y menor producción de aceite.",correccion:"Sulfato de magnesio (MgSO₄) al suelo: 20–30 g/m². Foliar al 2% cada 15 días durante 2 meses."},
-    {elemento:"Zinc",simbolo:"Zn",probabilidad:55,sintomas_observados:"Hoja de tamaño reducido, nervadura muy marcada y textura ligeramente rugosa.",consecuencias:"Entrenudos cortos (efecto 'roseta'), producción escasa de fruto.",correccion:"Quelato de zinc foliar 0,3% o sulfato de zinc al suelo 5–10 g/planta en primavera."},
+    {elemento:"Zinc",simbolo:"Zn",probabilidad:55,sintomas_observados:"Hoja de tamaño reducido, nervadura muy marcada y textura ligeramente rugosa.",consecuencias:"Entrenudos cortos, producción escasa de fruto.",correccion:"Quelato de zinc foliar 0,3% o sulfato de zinc al suelo 5–10 g/planta en primavera."},
     {elemento:"Hierro",simbolo:"Fe",probabilidad:40,sintomas_observados:"Leve palidez generalizada con nervios algo más verdes — clorosis internerval incipiente.",consecuencias:"Se agrava en suelos calcáreos (pH>7). Puede comprometer brotación y cuajado.",correccion:"Quelato de hierro EDDHA al suelo: 5–10 g/planta. Aplicar antes de brotación."}
   ],
   otras_posibles_causas:["pH elevado (>7.5) bloquea Mg, Fe y Zn","Ácaros eriófidos (revisar envés con lupa)","Estrés hídrico moderado","Exceso de calcio"],
   recomendaciones_urgentes:["Medir pH del suelo — mantener entre 6,0 y 6,5.","Examinar el envés con lupa ×10 para descartar ácaros.","Aplicar abono foliar con Mg + microelementos.","Realizar análisis foliar en laboratorio."],
-  nota_profesional:"El moteado internerval con nervios conservados es patognomónico de deficiencia de magnesio en olivo, frecuentemente agravada por pH alcalino o competencia con potasio. Recomiendo análisis de suelo y foliar antes de aplicar correcciones masivas."
+  nota_profesional:"El moteado internerval con nervios conservados es patognomónico de deficiencia de magnesio en olivo, frecuentemente agravada por pH alcalino o competencia con potasio."
 };
 const TIPS=[["🍃","Fotografía hojas con síntomas claros (manchas, amarilleo, necrosis)"],["☀️","Buena iluminación natural, sin flash directo"],["🔍","Llena el encuadre con los síntomas"],["🌿","Una hoja entera es mejor que un fragmento"],["📐","Incluye haz y envés si ambos tienen síntomas"]];
 
-// ── APP STATE ─────────────────────────────────────────────────────────────────
-let imageB64 = null;
-let deferredPrompt = null;
-let prevScreen = 'result';
+let imageB64=null, imageMime='image/jpeg', deferredPrompt=null, prevScreen='result';
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-(function init(){
-  // Tips
-  const tl = document.getElementById('tips-list');
-  TIPS.forEach(([i,t]) => tl.innerHTML += `<div style="display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid #0a120a"><span style="font-size:1.05rem;flex-shrink:0">${i}</span><span style="font-size:.77rem;color:var(--muted);line-height:1.5">${t}</span></div>`);
+(function(){
+  const tl=document.getElementById('tips-list');
+  TIPS.forEach(([i,t])=>tl.innerHTML+=`<div style="display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid #0a120a"><span style="font-size:1.05rem;flex-shrink:0">${i}</span><span style="font-size:.77rem;color:var(--muted);line-height:1.5">${t}</span></div>`);
 
-  // Load saved key
   refreshKeyUI();
+  const key=localStorage.getItem(KEY_STORAGE);
+  if(key){ showResult(SAMPLE,true); } else { showScreen('upload'); refreshNokey(); }
 
-  // Show sample or upload depending on key
-  const key = localStorage.getItem(KEY_STORAGE);
-  if(key){ showResult(SAMPLE, true); } else { showScreen('upload'); refreshNokeyBanner(); }
-
-  // Clipboard
-  window.addEventListener('paste', e => {
+  window.addEventListener('paste',e=>{
     for(const item of (e.clipboardData?.items||[])) if(item.type.startsWith('image/')){ readFile(item.getAsFile()); break; }
   });
+  const dz=document.getElementById('drop-zone');
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');readFile(e.dataTransfer.files?.[0]);});
 
-  // Drag & drop
-  const dz = document.getElementById('drop-zone');
-  dz.addEventListener('dragover', e=>{e.preventDefault();dz.classList.add('drag');});
-  dz.addEventListener('dragleave', ()=>dz.classList.remove('drag'));
-  dz.addEventListener('drop', e=>{e.preventDefault();dz.classList.remove('drag');readFile(e.dataTransfer.files?.[0]);});
-
-  // PWA install
-  window.addEventListener('beforeinstallprompt', e=>{
-    e.preventDefault(); deferredPrompt=e;
-    document.getElementById('btn-install-settings').style.display='block';
-    setTimeout(()=>{ document.getElementById('install-banner').style.display='block'; }, 4000);
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault();deferredPrompt=e;
+    document.getElementById('btn-inst-set').style.display='block';
+    setTimeout(()=>document.getElementById('install-banner').style.display='block',4000);
   });
-  window.addEventListener('appinstalled', ()=>{
+  window.addEventListener('appinstalled',()=>{
     document.getElementById('install-banner').style.display='none';
-    document.getElementById('btn-install-settings').style.display='none';
-    document.getElementById('installed-msg').style.display='block';
+    document.getElementById('btn-inst-set').style.display='none';
+    document.getElementById('inst-ok').style.display='block';
   });
+  const isIos=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isIos&&!window.navigator.standalone) document.getElementById('btn-ios-set').style.display='block';
+  if(isIos&&window.navigator.standalone)  document.getElementById('inst-ok').style.display='block';
 
-  // iOS
-  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone;
-  if(isIos && !isStandalone) document.getElementById('btn-ios-settings').style.display='block';
-  if(isIos && isStandalone)  document.getElementById('installed-msg').style.display='block';
-
-  // SW
   if('serviceWorker' in navigator){
-    const sw=`self.addEventListener('install',e=>e.waitUntil(caches.open('agroscan-v1').then(c=>c.addAll(['./']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>new Response('',{status:408})))));`;
+    const sw=`self.addEventListener('install',e=>e.waitUntil(caches.open('agroscan-v2').then(c=>c.addAll(['./']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>new Response('',{status:408})))));`;
     navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});
   }
 })();
 
-// ── SETTINGS ──────────────────────────────────────────────────────────────────
+// ── KEY ───────────────────────────────────────────────────────────────────────
 function refreshKeyUI(){
-  const key = localStorage.getItem(KEY_STORAGE);
-  const statusBox = document.getElementById('key-status-box');
-  const deleteBtn = document.getElementById('btn-delete-key');
-  const input = document.getElementById('input-apikey');
-  if(key){
-    statusBox.innerHTML = `<div class="key-status ok">✅ API Key guardada — termina en …${key.slice(-6)}</div>`;
-    deleteBtn.style.display = 'block';
-    input.placeholder = '••••••••••••••••••••••';
-  } else {
-    statusBox.innerHTML = `<div class="key-status none">⚠️ Sin API Key — la app no puede analizar imágenes</div>`;
-    deleteBtn.style.display = 'none';
-    input.placeholder = 'sk-ant-api03-...';
-  }
+  const key=localStorage.getItem(KEY_STORAGE);
+  document.getElementById('key-status-box').innerHTML = key
+    ? `<div class="key-status key-ok">✅ API Key guardada — termina en …${key.slice(-6)}</div>`
+    : `<div class="key-status key-none">⚠️ Sin API Key — configúrala para analizar imágenes</div>`;
+  document.getElementById('btn-del').style.display = key?'block':'none';
 }
-
 function saveKey(){
-  const val = document.getElementById('input-apikey').value.trim();
-  if(!val){ alert('Introduce una API key válida.'); return; }
-  if(!val.startsWith('sk-')){ alert('La API key debe empezar por "sk-". Comprueba que la copiaste correctamente.'); return; }
-  localStorage.setItem(KEY_STORAGE, val);
-  document.getElementById('input-apikey').value = '';
-  refreshKeyUI();
-  refreshNokeyBanner();
-  // Go to upload/result
-  const btn = document.getElementById('btn-settings');
-  btn.classList.remove('active');
-  if(imageB64) showScreen('upload');
-  else { showResult(SAMPLE, true); }
+  const val=document.getElementById('input-key').value.trim();
+  if(!val){alert('Introduce una API key válida.');return;}
+  if(!val.startsWith('AIza')){alert('La key de Gemini debe empezar por "AIza". Comprueba que la copiaste correctamente.');return;}
+  localStorage.setItem(KEY_STORAGE,val);
+  document.getElementById('input-key').value='';
+  refreshKeyUI(); refreshNokey();
+  document.getElementById('btn-cfg').classList.remove('on');
+  showResult(SAMPLE,true);
 }
-
 function deleteKey(){
-  if(!confirm('¿Eliminar la API key guardada?')) return;
+  if(!confirm('¿Eliminar la API key guardada?'))return;
   localStorage.removeItem(KEY_STORAGE);
-  refreshKeyUI(); refreshNokeyBanner();
+  refreshKeyUI(); refreshNokey();
 }
-
-function toggleKeyVisibility(){
-  const input = document.getElementById('input-apikey');
-  input.type = input.type === 'password' ? 'text' : 'password';
+function toggleEye(){
+  const i=document.getElementById('input-key');
+  i.type=i.type==='password'?'text':'password';
 }
-
-function toggleSettings(){
-  const btn = document.getElementById('btn-settings');
-  if(document.getElementById('screen-settings').classList.contains('active')){
-    btn.classList.remove('active');
-    // Go back to previous screen
-    showScreen(prevScreen);
-  } else {
-    // Remember where we were
-    ['upload','loading','result'].forEach(s=>{
-      if(document.getElementById('screen-'+s).classList.contains('active')) prevScreen=s;
-    });
-    btn.classList.add('active');
-    showScreenRaw('settings');
-  }
-}
-
-function goSettings(){
-  prevScreen='upload';
-  document.getElementById('btn-settings').classList.add('active');
-  showScreenRaw('settings');
-}
-
-function refreshNokeyBanner(){
-  const key = localStorage.getItem(KEY_STORAGE);
-  document.getElementById('nokey-banner').style.display = key ? 'none' : 'flex';
+function refreshNokey(){
+  document.getElementById('nokey-banner').style.display=localStorage.getItem(KEY_STORAGE)?'none':'flex';
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────────────────
-function showScreenRaw(id){
+function showRaw(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
 }
 function showScreen(id){
-  showScreenRaw(id);
-  document.getElementById('btn-new').style.display = (id==='result') ? 'block' : 'none';
-  document.getElementById('btn-settings').classList.remove('active');
+  showRaw(id);
+  document.getElementById('btn-new').style.display=(id==='result')?'block':'none';
+  document.getElementById('btn-cfg').classList.remove('on');
 }
-function showUpload(){ showScreen('upload'); refreshNokeyBanner(); }
+function showUpload(){ showScreen('upload'); refreshNokey(); }
+function goSettings(){
+  prevScreen='upload';
+  document.getElementById('btn-cfg').classList.add('on');
+  showRaw('settings');
+}
+function toggleSettings(){
+  const cfg=document.getElementById('btn-cfg');
+  if(document.getElementById('screen-settings').classList.contains('active')){
+    cfg.classList.remove('on');
+    showScreen(prevScreen);
+  } else {
+    ['upload','loading','result'].forEach(s=>{ if(document.getElementById('screen-'+s).classList.contains('active')) prevScreen=s; });
+    cfg.classList.add('on');
+    showRaw('settings');
+  }
+}
 
 // ── FILES ─────────────────────────────────────────────────────────────────────
-function openCamera()  { document.getElementById('input-camera').click(); }
-function openGallery() { document.getElementById('input-gallery').click(); }
-function handleFile(input){ if(input.files?.[0]) readFile(input.files[0]); }
-
+function openCamera(){document.getElementById('input-camera').click();}
+function openGallery(){document.getElementById('input-gallery').click();}
+function handleFile(input){if(input.files?.[0])readFile(input.files[0]);}
 function readFile(file){
-  if(!file?.type.startsWith('image/')) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const url = e.target.result;
-    imageB64 = url.split(',')[1];
-    const dz = document.getElementById('drop-zone');
-    dz.innerHTML = `<img src="${url}" alt=""/>`;
-    document.getElementById('btn-analyze').disabled = false;
-    document.getElementById('error-box').style.display = 'none';
-    showScreen('upload');
-    refreshNokeyBanner();
+  if(!file?.type.startsWith('image/'))return;
+  imageMime=file.type||'image/jpeg';
+  const r=new FileReader();
+  r.onload=e=>{
+    const url=e.target.result;
+    imageB64=url.split(',')[1];
+    document.getElementById('drop-zone').innerHTML=`<img src="${url}" alt=""/>`;
+    document.getElementById('btn-analyze').disabled=false;
+    document.getElementById('error-box').style.display='none';
+    showScreen('upload'); refreshNokey();
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(file);
 }
 
 // ── ANALYSE ───────────────────────────────────────────────────────────────────
 async function analyze(){
-  const key = localStorage.getItem(KEY_STORAGE);
-  if(!key){ goSettings(); return; }
-  if(!imageB64) return;
+  const key=localStorage.getItem(KEY_STORAGE);
+  if(!key){goSettings();return;}
+  if(!imageB64)return;
   showScreen('loading');
   try{
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:1500,system:SYSTEM_PROMPT,
-        messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:imageB64}},
-          {type:'text',text:'Analiza esta imagen e identifica el cultivo y sus deficiencias nutricionales.'}
-        ]}]
-      })
-    });
-    const data = await res.json();
-    if(data.error){ showError('Error API: '+(data.error.message||JSON.stringify(data.error))); showScreen('upload'); return; }
-    const text = data.content?.map(b=>b.text||'').join('')||'';
-    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    if(parsed.error){ showError(parsed.error); showScreen('upload'); }
-    else showResult(parsed, false);
+    const url=`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
+    const body={
+      contents:[{parts:[
+        {inline_data:{mime_type:imageMime,data:imageB64}},
+        {text:PROMPT}
+      ]}],
+      generationConfig:{temperature:0.1,maxOutputTokens:1500}
+    };
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    if(data.error){showErr('Error API Gemini: '+(data.error.message||JSON.stringify(data.error)));showScreen('upload');return;}
+    const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    const clean=text.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    if(parsed.error){showErr(parsed.error);showScreen('upload');}
+    else showResult(parsed,false);
   } catch(err){
-    showError('Error de conexión. Comprueba el internet e inténtalo de nuevo.');
+    showErr('Error de conexión o respuesta inesperada. Inténtalo de nuevo.');
     showScreen('upload');
   }
 }
-
-function showError(msg){
-  const box = document.getElementById('error-box');
-  box.textContent = '⚠️ '+msg;
-  box.style.display = 'block';
+function showErr(msg){
+  const b=document.getElementById('error-box');
+  b.textContent='⚠️ '+msg; b.style.display='block';
 }
 
-// ── RENDER RESULT ─────────────────────────────────────────────────────────────
-function showResult(r, isSample){
-  const cfg = STATE_CFG[r.estado_general]||STATE_CFG['Leve'];
-  document.getElementById('sample-notice').style.display = isSample?'flex':'none';
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function showResult(r,isSample){
+  const cfg=STATE_CFG[r.estado_general]||STATE_CFG['Leve'];
+  document.getElementById('sample-notice').style.display=isSample?'flex':'none';
 
-  // State bar
-  const sb = document.getElementById('state-bar');
-  sb.style.cssText = `background:${cfg.bg};border:1px solid ${cfg.border};border-radius:13px;padding:1.1rem 1.2rem;display:flex;align-items:center;gap:1rem;margin-bottom:1rem`;
-  sb.innerHTML = `<div style="font-size:2rem;flex-shrink:0">${cfg.icon}</div>
+  const sb=document.getElementById('state-bar');
+  sb.style.cssText=`background:${cfg.bg};border:1px solid ${cfg.border};border-radius:13px;padding:1.1rem 1.2rem;display:flex;align-items:center;gap:1rem;margin-bottom:1rem`;
+  sb.innerHTML=`<div style="font-size:2rem;flex-shrink:0">${cfg.icon}</div>
     <div style="flex:1">
       <div style="font-size:.6rem;font-weight:600;color:${cfg.color};letter-spacing:.15em;text-transform:uppercase">Estado del cultivo</div>
       <div class="state-name">${r.estado_general}</div>
@@ -560,9 +506,8 @@ function showResult(r, isSample){
       <div class="conf-val" style="color:${cfg.color}">${r.confianza_diagnostico}%</div>
     </div>`;
 
-  // Deficiencias
   let dh=`<div class="card-head">⚗️ Deficiencias (${r.deficiencias.length})</div><div class="card-body">`;
-  if(!r.deficiencias.length){ dh+=`<div style="text-align:center;padding:1rem;font-size:.82rem;color:var(--muted)">No se detectaron deficiencias. El cultivo parece saludable.</div>`; }
+  if(!r.deficiencias.length){dh+=`<div style="text-align:center;padding:1rem;font-size:.82rem;color:var(--muted)">No se detectaron deficiencias. El cultivo parece saludable.</div>`;}
   else r.deficiencias.forEach(d=>{
     const c=EL_COLORS[d.simbolo]||'#4ade80';
     dh+=`<div class="def-item">
@@ -579,17 +524,14 @@ function showResult(r, isSample){
   });
   document.getElementById('def-section').innerHTML=dh+'</div>';
 
-  // Recomendaciones
   let rh=`<div class="card-head">🚨 Acciones recomendadas</div><div class="card-body">`;
-  r.recomendaciones_urgentes.forEach((rec,i)=>{ rh+=`<div class="rec-item"><div class="rec-num">${i+1}</div><div class="rec-text">${rec}</div></div>`; });
+  r.recomendaciones_urgentes.forEach((rec,i)=>{rh+=`<div class="rec-item"><div class="rec-num">${i+1}</div><div class="rec-text">${rec}</div></div>`;});
   document.getElementById('recs-section').innerHTML=rh+'</div>';
 
-  // Causas
   let ch=`<div class="card-head">🔍 Otras posibles causas</div><div class="card-body"><div class="tags-wrap">`;
-  r.otras_posibles_causas.forEach(c=>{ ch+=`<span class="tag">${c}</span>`; });
+  r.otras_posibles_causas.forEach(c=>{ch+=`<span class="tag">${c}</span>`;});
   document.getElementById('causes-section').innerHTML=ch+'</div></div>';
 
-  // Nota
   document.getElementById('nota-section').innerHTML=`
     <div class="card-head">👨‍🌾 Nota del agrónomo</div>
     <div class="card-body">
@@ -602,13 +544,12 @@ function showResult(r, isSample){
 
 // ── PWA ───────────────────────────────────────────────────────────────────────
 async function installApp(){
-  if(!deferredPrompt) return;
+  if(!deferredPrompt)return;
   deferredPrompt.prompt();
   await deferredPrompt.userChoice;
   deferredPrompt=null;
   document.getElementById('install-banner').style.display='none';
 }
-function dismissInstall(){ document.getElementById('install-banner').style.display='none'; }
 </script>
 </body>
 </html>
